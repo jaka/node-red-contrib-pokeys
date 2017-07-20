@@ -9,7 +9,7 @@ For example usage see `examples` directory.
 
 ### reports
 
-This node parses HTTP server report from the following formats: CSV, CSV with | delimiter or, CSV with one entry in line; and emits a message for each entry recieved inside report. The report must be sent by POST method.
+This node parses HTTP server report from the following formats: CSV, CSV with `|` delimiter or, CSV with one entry in line; and emits a message for each entry recieved inside report. The report must be sent by POST method.
 
 The message topic (`msg.topic`) is set to name of an entry, while payload (`msg.payload`) consists of parsed float. Message topic might be used as decision in next switch node, acting as demuxer.
 
