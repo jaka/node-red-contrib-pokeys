@@ -1,0 +1,47 @@
+<script type="text/x-red" data-template-name="digital out">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-addr"><i class="fa fa-globe"></i> IP</label>
+        <input id="node-input-addr" type="text" placeholder="">
+    </div>
+    <div class="form-row">
+        <label for="node-input-pin"><i class="fa fa-globe"></i> Output pin</label>
+        <input id="node-input-pin" type="text" placeholder="">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="digital out">
+    <p>This node sends a request to a Pokeys device to set a status to an output pin.</p>
+    <p>Status (<code>msg.payload</code>) might be a string (&quot;on&quot;, &quot;off&quot;), boolean value (true, false) or numeric value (1, 0)</p>
+    <p>You may also use <code>msg.pin</code> to select output pin.</p>
+    <p>Note that this node does not define an output type of the pin.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('digital out', {
+        category: 'pokeys',
+        color: '#269af2',
+        defaults: {
+            name: {value: ''},
+            addr: {value: '', required: true},
+            pin: {value: ''}
+        },
+        inputs: 1,
+        outputs: 0,
+        icon: 'serial.png',
+        label: function() {
+            if (this.name) {
+              return this.name;
+            }
+            else if (this.addr) {
+              return this.addr;
+            }
+            else {
+              return 'pokeys-digout';
+            }
+        }
+    });
+</script>

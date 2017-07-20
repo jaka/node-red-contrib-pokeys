@@ -1,0 +1,21 @@
+{
+    "name": "node-red-contrib-pokeys",
+    "version": "0.0.1",
+    "description": "Nodes for interfacing Pokeys devices",
+    "license": "MIT",
+    "dependencies": {
+        "dgram": "*",
+        "raw-body": "*"
+    },
+    "keywords": [ "node-red", "pokeys" ],
+    "node-red": {
+        "nodes": {
+            "pokeys-udp": "nodes/pokeys-udp.js",
+            "pokeys-http": "nodes/pokeys-reports.js"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jaka/node-red-contrib-pokeys.git"
+    }
+}

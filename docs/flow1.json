@@ -1,0 +1,157 @@
+[
+    {
+        "id": "9d997061.9da6d",
+        "type": "ui_gauge",
+        "z": "ccc1be14.2ffe",
+        "name": "Indoor",
+        "group": "237b96b8.8f79da",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Indoor",
+        "label": "°C",
+        "format": "{{value}}",
+        "min": "10",
+        "max": "30",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "18",
+        "seg2": "27",
+        "x": 538,
+        "y": 566,
+        "wires": []
+    },
+    {
+        "id": "3b1efe07.3efd22",
+        "type": "switch",
+        "z": "ccc1be14.2ffe",
+        "name": "Demuxer",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Temp",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "LED",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 397,
+        "y": 624,
+        "wires": [
+            [
+                "9d997061.9da6d"
+            ],
+            [
+                "21b90ab9.d7f0de"
+            ]
+        ]
+    },
+    {
+        "id": "220e2384.af4164",
+        "type": "ui_switch",
+        "z": "ccc1be14.2ffe",
+        "name": "Light emitting diode",
+        "label": "Light emitting diode",
+        "group": "62106bfe.7bb16c",
+        "order": 3,
+        "width": "6",
+        "height": "1",
+        "passthru": false,
+        "decouple": "true",
+        "topic": "",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 739,
+        "y": 612,
+        "wires": [
+            [
+                "8255f7e0.357b8"
+            ]
+        ]
+    },
+    {
+        "id": "21b90ab9.d7f0de",
+        "type": "function",
+        "z": "ccc1be14.2ffe",
+        "name": "1 to True",
+        "func": "msg.payload = (msg.payload !== 1);\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 551,
+        "y": 669,
+        "wires": [
+            [
+                "220e2384.af4164"
+            ]
+        ]
+    },
+    {
+        "id": "8255f7e0.357b8",
+        "type": "digital out",
+        "z": "ccc1be14.2ffe",
+        "name": "",
+        "addr": "10.82.4.50",
+        "pin": "10",
+        "x": 937,
+        "y": 558,
+        "wires": []
+    },
+    {
+        "id": "67bf3601.8be058",
+        "type": "reports",
+        "z": "ccc1be14.2ffe",
+        "name": "",
+        "url": "/pokeys",
+        "x": 274,
+        "y": 537,
+        "wires": [
+            [
+                "3b1efe07.3efd22"
+            ]
+        ]
+    },
+    {
+        "id": "237b96b8.8f79da",
+        "type": "ui_group",
+        "z": "",
+        "name": "Temperatures",
+        "tab": "438cffdc.dbfe",
+        "disp": true,
+        "width": "6"
+    },
+    {
+        "id": "62106bfe.7bb16c",
+        "type": "ui_group",
+        "z": "",
+        "name": "LED",
+        "tab": "438cffdc.dbfe",
+        "order": 2,
+        "disp": true,
+        "width": "6"
+    },
+    {
+        "id": "438cffdc.dbfe",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Home",
+        "icon": "dashboard"
+    }
+]
