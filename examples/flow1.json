@@ -91,7 +91,7 @@
         "id": "21b90ab9.d7f0de",
         "type": "function",
         "z": "ccc1be14.2ffe",
-        "name": "1 to True",
+        "name": "1 to False",
         "func": "msg.payload = (msg.payload !== 1);\nreturn msg",
         "outputs": 1,
         "noerr": 0,
