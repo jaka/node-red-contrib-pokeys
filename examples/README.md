@@ -1,6 +1,6 @@
 # Example 1 (show current values of sensors with control of an output)
 
-In first example a DS18B20 temperature sensor is connected with data pin to a pin 50 (with a pull-up resistor of value 4k7 to 3.3 V). Moreover, a LED with 330 Ohm resistor is connected between pin 10 and 3.3 V, thus output state of 1 means the LED turned off and 0 turned on.
+In first example a DS18B20 temperature sensor is connected with data pin to a pin 50 (with a pull-up resistor of value 4k7 to 5 V). Moreover, a LED with 330 Ohm resistor is connected between pin 10 and 3.3 V, thus output state of 1 means the LED turned off and 0 turned on.
 
 Our goal is to create a responsive web interface where we can see current temperature and toggle the LED on and off. Furthermore, we want feedback from Pokeys to see if output pin was really toggled. LED will be toggled by digital output plugin, and feedback with temperature received by reports plugin. User interface will be build from nodes provided by node-red-dashboard module.
 
@@ -8,11 +8,11 @@ Our goal is to create a responsive web interface where we can see current temper
 
 ![pin10](pin10output.png "Pin 10 Output")
 
-In Pokeys configuration manager we make sure that pin 10 is set as output and DS18B20 is configured as 1-wire sensor in EasySensor dialog.
+In Pokeys configuration manager we make sure that pin 10 is set as output and DS18B20 is configured as Dallas 1-wire sensor in EasySensor dialog.
 
 ![easysensor](easysensor.png "Sensor 1")
 
-Before setting server report, a dashboard must be made from our Sensor 1, named **Temp**, and output pin named **LED**. These names are arbitrary, but must be different from each other. Order of entries is not important.
+Before setting server report, a Pokeys web dashboard must be made out with our Sensor 1, named **Temp**, and output pin named **LED**. These names are arbitrary, but must be different from each other. Order of entries is not important.
 ![dashboard](dashboard_config.png "Dashboard")
 
 Now we can configure report server. Our node plug-in acts as a web server, so a **Standard HTTP request** is needed. Server IP must be an IP where Node-RED is accessible (or will be accessible) and it is likely to be 192.168.1.200 or similar. Server port is also needed, as Node-RED mostly does not run on port 80. Usually it runs through 1880, so we need to enter **1880**. Data format is not mandatory, it could be anything since the plug-in detects and parses all three formats.
@@ -47,6 +47,7 @@ Wire output of previous function to *dashboard:switch*, which will represent a s
 Since we want to control output, wire output of the switch to a digital node, where define output pin **10** and set IP number of the Pokeys device.
 
 At the end open Node-RED dashboard UI by clicking *dashboard* pane on the right side of the webpage and then a box with arrow below, next to tabs.
+
 ![dashboard](dashboard.png "Dashboard")
 
 # Example 2 (logging current values from a sensor)
@@ -57,13 +58,13 @@ In this example we need only one sensor connected to Pokeys device and configure
 Pokeys configuration is almost the same as in Example 1, except the destination of server reports is now `/logger`.
 
 ### Node-RED configuration
-As in Example 1, the flow consists of *pokeys:reports*, *function:function* and *storage:file*.
+The flow consists of *pokeys:reports*, *function:function* and *storage:file*.
 
 ![flow2](logger-flow.png "Flow 2")
 
-Since we changed the destination in Pokeys configuration, we need to change URL of the first node to match.
+Since we changed the destination in Pokeys server configuration, we need to change URL of the first node to match.
 
-The purpose of function in to insert a timedate stamp and filter: only values of sensor named **Temp**, will pass the function. So its content is as follows.
+The purpose of function in to insert a timedate stamp and filter messages, so that only values of sensor named **Temp** (topic Temp), will pass the function. This could be implemented as follows.
 ```
 if (msg.topic !== 'Temp')
   return;
@@ -72,8 +73,9 @@ var now = new Date();
 newmsg.payload = now.toUTCString() + ',' + msg.payload;
 return newmsg;
 ```
+If sensor's value is only value Pokeys is sending to Node-RED server, we can skip function and connect just *pokeys:reports* with *storage:file* node.
 
-In the last node, we need specify full path of output file where we want to have values.
+In the last *file* node, we need specify full path of output file where we want to have values.
 ![file](file.png "File storage")
 
-In this we are running Node-RED on Linux as user `logger`, so we have permissions to save a file in his home directory.
+Since we are running Node-RED on Linux as user `logger`, we have permissions to save a file in his home directory.
