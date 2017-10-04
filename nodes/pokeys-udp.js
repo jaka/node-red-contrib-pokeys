@@ -38,6 +38,7 @@ module.exports = function(RED) {
             var pin = parseInt(node.pin) || parseInt(msg.pin) || 0;
             if (!pin || pin < 1 || pin > 55) {
                 node.error('Output pin out of range.');
+                return;
             }
 
             if (msg.hasOwnProperty('payload')) {
@@ -53,7 +54,7 @@ module.exports = function(RED) {
                 const context = node.context();
                 var counter = context.get('counter') || 0;
                 counter++;
-                context.set('counter', counter % 0xff );
+                context.set('counter', counter % 0xff);
 
                 node.status({});
                 var msg = [0xbb, 0x40, pin - 1, state ? 1 : 0, 0, 0, counter, 0];          
@@ -82,7 +83,6 @@ module.exports = function(RED) {
         });
 
     }
-
     RED.nodes.registerType('digital out', pokeysUDPout);
 
 };
