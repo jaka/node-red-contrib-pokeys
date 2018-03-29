@@ -21,7 +21,9 @@ Pin number could be set at node configuration or by setting `msg.pin` to a pin n
 
 ## Installation
 
-To install run the following command in your Node-RED user directory (typically `~/.node-red`):
+To install run the following command in your Node-RED user directory (typically `~/.node-red` *):
 ```
 npm i https://github.com/jaka/node-red-contrib-pokeys
 ```
+
+(*) This directory is created after node-red first run.
